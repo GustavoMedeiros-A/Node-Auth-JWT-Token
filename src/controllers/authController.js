@@ -2,17 +2,24 @@
 
 const User = require("../models/User");
 
-//Handle errors
+//Handle errors // Function to catch the error and return the especific error 
 const handleErrors = (err) => {
     console.log(err.message, err.code)
-    let error = { email: '', password: '' }
+    let errors = { email: '', password: '' }
+
+    //duplicate error code
+    if(err.code === 11000){
+        errors.email = 'that email is already registered '
+        return errors
+    }
 
     //Validation errors
     if(err.message.includes("user validation failed")) {
-        console.log(Object.values(err.errors).forEach(error => {
-            console.log(error.properties)
+        console.log(Object.values(err.errors).forEach(({properties}) => {
+            errors[properties.path] = properties.message
         }))
     }
+    return errors
 }
 
 
@@ -31,7 +38,7 @@ module.exports.signup_post = async (req, res) => {
         res.status(201).json({ user })
     } catch (err) {
         const errors = handleErrors(err);
-        res.status(400).send("error, user not created")
+        res.status(400).json({ errors})
     }
 }
 
@@ -53,5 +60,15 @@ module.exports.get_all = async (req, res) => {
         res.status(200).json({allUsers})
     } catch (err) {
         console.log(err)
+    }
+}
+
+
+module.exports.delete = async (req, res) => {
+    try{
+        let deleteUser = await User.findByIdAndRemove(req.params.id);
+        res.status(200).json(deleteUser);
+    } catch (err) {
+        res.status(500).json({err})
     }
 }

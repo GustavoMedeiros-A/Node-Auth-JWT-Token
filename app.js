@@ -8,6 +8,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json()); //Takes any json data and it passes into a javascript object to use in the code
 
+
 // view engine
 app.set('view engine', 'ejs');
 
