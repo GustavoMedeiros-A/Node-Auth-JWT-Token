@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const authRoutes = require("./routes/authRoutes")
+const authRoutes = require("./routes/authRoutes");
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// middleware
+// middleware // Function to access for requesting an object // HTTP request -> Middleware -> HTTP response
 app.use(express.static(__dirname + '/public'));
 app.use(express.json()); //Takes any json data and it passes into a javascript object to use in the code
+app.use(cookieParser()); 
 
 
 // view engine
@@ -23,4 +25,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
-app.use(authRoutes)
+app.use(authRoutes);
+
+// cookies
+
+
+

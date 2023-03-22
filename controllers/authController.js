@@ -1,6 +1,7 @@
 // Create the routes here and then pass to the Routes, which will create the endpoints and pass to the app.js
 
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 //Handle errors // Function to catch the error and return the especific error 
 const handleErrors = (err) => {
