@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const authRoutes = require("./src/routes/authRoutes")
+const authRoutes = require("./routes/authRoutes")
 
 const app = express();
 
 // middleware
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(express.json()); //Takes any json data and it passes into a javascript object to use in the code
 
 
